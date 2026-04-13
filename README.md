@@ -1,50 +1,64 @@
+# 🚖 Mar & Sol - Sistema de Gestão de Rádio Táxi
 
-🚖 **Mar & Sol - Sistema de Gestão de Rádio Táxi**
+## 📋 Sobre o Projeto
+O **Mar & Sol** é uma aplicação Java de terminal projetada para gerenciar o fluxo operacional de uma cooperativa de rádio táxi. O sistema permite o cadastro completo de clientes e motoristas (incluindo dados de veículos e habilitação), a solicitação de corridas com validação de perímetro urbano e o acompanhamento de todo o ciclo de vida de uma viagem, desde a chamada inicial até o embarque do passageiro.
 
-📋 **Sobre o Projeto**
-O Mar & Sol é uma aplicação Java em terminal desenvolvida para gerenciar o fluxo operacional de uma cooperativa de rádio táxi. O sistema permite o cadastro completo de clientes e motoristas (incluindo dados de veículos e habilitação), além da solicitação de corridas com validação de perímetro urbano. Também acompanha todo o ciclo de vida da viagem, desde a chamada inicial até o embarque do passageiro.
+---
 
-🏗️ **Arquitetura e Padrões de Projeto**
-O sistema foi estruturado com base no padrão BCE (Boundary-Control-Entity), também conhecido como VCP (Visão-Controle-Processamento), garantindo uma clara separação de responsabilidades.
+## 🏗️ Arquitetura e Padrões de Projeto
 
-**BCE / VCP na prática:**
+O software foi construído utilizando o padrão **BCE (Boundary-Control-Entity)**, também conhecido em algumas vertentes acadêmicas como **VCP (Visão-Controle-Processamento)**.
 
-* **Boundary (Fronteira):** Responsável pela interação com o usuário via terminal (`Scanner`). Apenas coleta e exibe dados, sem conter regras de negócio.
-* **Control (Controle):** Atua como o núcleo do sistema, coordenando o fluxo entre as camadas, realizando validações e regras operacionais.
-* **Entity (Entidade):** Representa os objetos de domínio (como `Driver` e `Ride`), concentrando estado e regras essenciais do negócio.
+### 1. Padrão BCE / VCP
+A separação de responsabilidades é o pilar desta arquitetura:
 
-🧠 **Aplicação de DDD (Domain-Driven Design)**
-O projeto utiliza conceitos de DDD para refletir fielmente o domínio da aplicação:
+* **Boundary (Fronteira/Visão):** Localizada no pacote `boundary`, é a única camada que interage com o usuário via `Scanner`. Ela captura dados e exibe resultados, mas **não possui lógica de negócio**.
+* **Control (Controle):** Localizada no pacote `control`, funciona como o "cérebro" do sistema. Orquestra as ações entre as fronteiras e as entidades, realizando validações e buscas.
+* **Entity (Entidade):** Localizada no pacote `entity`. Representa os objetos de negócio puros (Ex: `Driver`, `Ride`). Elas detêm o estado e as regras fundamentais do domínio.
 
-* **Linguagem Ubíqua:** Termos como “VR Code”, “Aguardando VR” e “Tripulado” são utilizados tanto no código quanto no contexto do negócio.
-* **Value Objects:** Tipos como `Cpf`, `Phone`, `Address` e `Cnh` substituem strings genéricas, garantindo validação e consistência dos dados.
-* **Entidades Ricas:** Classes como `Ride` controlam seu próprio estado, evitando transições inválidas no fluxo da corrida.
+### 2. Princípios de DDD (Domain-Driven Design)
+O projeto aplica conceitos de DDD para tornar o código reflexo da realidade do negócio:
+* **Linguagem Ubíqua:** Termos como "VR Code", "Aguardando VR" e "Tripulado" são usados tanto no código quanto no dia a dia da rádio táxi.
+* **Value Objects (Objetos de Valor):** Em vez de usar apenas `String` para tudo, criamos classes dedicadas para tipos complexos como `Cpf`, `Phone`, `Address` e `Cnh`. Isso garante que um CPF seja sempre válido e formatado antes mesmo de chegar ao controlador.
+* **Entidades Ricas:** Entidades como `Ride` gerenciam suas próprias transições de estado (máquina de estados), impedindo que uma corrida seja "embarcada" sem antes ter um táxi atribuído.
 
-🛠️ **Princípios SOLID**
-A estrutura do código segue os princípios SOLID, promovendo organização e manutenibilidade:
+---
 
-* **SRP (Responsabilidade Única):** Cada classe possui uma única responsabilidade bem definida.
-* **OCP (Aberto/Fechado):** Novos estados de corrida podem ser adicionados sem alterar a lógica existente.
-* **LSP (Substituição de Liskov):** Uso de abstrações como `List` garante flexibilidade nas implementações.
-* **DIP (Inversão de Dependência):** As dependências são injetadas via `Main`, reduzindo acoplamento entre camadas.
+## 🛠️ Princípios SOLID Aplicados
 
-🔗 **Desacoplamento e Encapsulamento**
-O sistema foi projetado com foco em baixo acoplamento e alta coesão:
+O código foi refatorado para respeitar os princípios SOLID, garantindo um sistema robusto:
 
-* **Independência de Interface:** A camada de apresentação pode ser substituída (ex: Swing ou JavaFX) sem impactar regras de negócio.
-* **Encapsulamento:** Atributos são protegidos e acessados de forma controlada. Objetos como `Cpf` garantem integridade e formatação dos dados.
+1.  **S - Single Responsibility Principle (SRP):** Cada classe tem uma única razão para mudar. O `DriverController` cuida da lógica dos motoristas, enquanto o `DriverBoundary` cuida apenas da interação de tela para motoristas.
+2.  **O - Open/Closed Principle (OCP):** O sistema de status de corrida (`RideStatus`) via Enum permite adicionar novos estados (ex: "Em Desvio") sem alterar a lógica central de outras classes.
+3.  **L - Liskov Substitution Principle (LSP):** As coleções utilizam tipos base (como `List`) para garantir que qualquer implementação de lista possa ser usada sem quebrar os controladores.
+4.  **D - Dependency Inversion Principle (DIP):** O `Main.java` instancia os controladores e os passa para as fronteiras, reduzindo o acoplamento direto entre as classes.
 
-🚀 **Fluxo do Sistema**
-O funcionamento segue um ciclo bem definido:
+---
 
-1. **Cadastro:** Registro completo de motoristas com CNH, veículo e endereço.
-2. **Solicitação:** Criação da corrida com validação de área atendida.
-3. **Despacho:** Associação de um “VR Code” à corrida.
-4. **Execução:** Evolução de status: *AGUARDANDO_AVISO → AVISO_EFETUADO → TRIPULADO*.
-5. **Gestão:** Consulta e filtragem de motoristas e histórico de corridas.
+## 🔗 Desacoplamento e Encapsulamento
 
-💻 **Tecnologias Utilizadas**
+Uma das maiores forças deste projeto é o **baixo acoplamento**.
+* **Independência de Interface:** Se decidirmos trocar o terminal por uma interface gráfica (Swing ou JavaFX), precisamos alterar apenas o pacote `boundary`. Toda a lógica de negócio nos `control` e `entity` permaneceria intacta.
+* **Encapsulamento Estrito:** Atributos de classes como `Customer` e `Driver` são privados e protegidos por métodos de acesso. A classe `Cpf`, por exemplo, protege o dado interno permitindo apenas a visualização formatada através do método `getFormatted()`.
 
-* **Java 21+** — Recursos modernos da linguagem
-* **UUID** — Identificadores únicos e seguros
-* **Java Time API** — Manipulação robusta de datas e horários
+---
+
+## 🚀 Como Funciona o Fluxo do Sistema
+
+O projeto segue um ciclo de vida rigoroso para as operações:
+
+1.  **Cadastro:** Motoristas são registrados com CNH, Veículo e Endereço completo.
+2.  **Solicitação:** Uma corrida é criada. O sistema valida se a rua informada é atendida pela cooperativa (ex: Avenida Paulista).
+3.  **Despacho (Dispatch):** O operador atribui um "VR Code" (identificador do rádio) à corrida.
+4.  **Aviso e Embarque:** O status evolui de `AGUARDANDO_AVISO` para `AVISO_EFETUADO` e, finalmente, `TRIPULADO`.
+5.  **Gestão:** Através dos menus de visão, é possível filtrar motoristas ativos/desativados e o histórico de corridas.
+
+---
+
+## 💻 Tecnologias Utilizadas
+* **Java 21+:** Utilizando recursos modernos como `switch expressions` e classes implícitas no `Main`.
+* **UUID:** Para geração de identificadores únicos e seguros para clientes.
+* **Java Time API:** Gerenciamento preciso de datas de validade de CNH e horários de saída.
+
+---
+*Este projeto demonstra a transição de um código simples para uma arquitetura profissional, focada em regras de negócio claras e código limpo.*
