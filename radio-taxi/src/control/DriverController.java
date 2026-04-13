@@ -1,7 +1,10 @@
 package control;
 
 import entity.Driver;
+import entity.Vehicle;
+import entity.dataType.Address;
 import entity.dataType.Cpf;
+import entity.dataType.Phone;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,8 +13,16 @@ import java.util.List;
 public class DriverController {
     private List<Driver> drivers = new ArrayList<>();
 
-    public Driver registerDriver(String name, Cpf cpf, String vrCode, LocalDate joinDate) {
-        Driver newDriver = new Driver(name, cpf, vrCode, joinDate);
+    public List<Driver> getAllDrivers() {
+        return drivers;
+    }
+
+    public Driver registerDriver(String name, Cpf cpf, String vrCode, LocalDate joinDate,
+                                 String license, String category, LocalDate expiration,
+                                 Vehicle vehicle, Address address, Phone phone) {
+
+        Driver newDriver = new Driver(name, cpf, vrCode, joinDate, license, category,
+                expiration, vehicle, address, phone);
         drivers.add(newDriver);
         return newDriver;
     }

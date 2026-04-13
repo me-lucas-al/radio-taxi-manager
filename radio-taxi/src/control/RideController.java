@@ -12,6 +12,7 @@ import java.util.List;
 public class RideController {
     private List<Ride> rides = new ArrayList<>();
 
+
     private List<String> allowedStreets = List.of(
             "Avenida Paulista",
             "Rua Augusta",
