@@ -1,6 +1,8 @@
 package control;
 
 import entity.Driver;
+import entity.dataType.Cpf;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.List;
 public class DriverController {
     private List<Driver> drivers = new ArrayList<>();
 
-    public Driver registerDriver(String name, String cpf, String vrCode, LocalDate joinDate) {
+    public Driver registerDriver(String name, Cpf cpf, String vrCode, LocalDate joinDate) {
         Driver newDriver = new Driver(name, cpf, vrCode, joinDate);
         drivers.add(newDriver);
         return newDriver;

@@ -1,13 +1,14 @@
 package entity;
 
 import entity.dataType.Address;
+import entity.dataType.Cpf;
 import entity.dataType.Phone;
 
 import java.time.LocalDate;
 
 public class Driver {
     private String name;
-    private String cpf;
+    private Cpf cpf;
     private String driverLicenseNumber;
     private String licenseCategory;
     private LocalDate licenseExpirationDate;
@@ -24,7 +25,7 @@ public class Driver {
     private LocalDate joinDate;
     private LocalDate leaveDate;
 
-    public Driver(String name, String cpf, String vrCode, LocalDate joinDate) {
+    public Driver(String name, Cpf cpf, String vrCode, LocalDate joinDate) {
         this.name = name;
         this.cpf = cpf;
         this.vrCode = vrCode;
