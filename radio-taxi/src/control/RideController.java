@@ -63,6 +63,25 @@ public class RideController {
         return rides;
     }
 
+    public List<Ride> getCompletedRides() {
+        List<Ride> completed = new ArrayList<>();
+        for (Ride r : rides) {
+            if (r.getStatus() == RideStatus.TRIPULADO) completed.add(r);
+        }
+        return completed;
+    }
+
+    public List<Ride> getCancelledRides() {
+        List<Ride> cancelled = new ArrayList<>();
+        for (Ride r : rides) {
+            if (r.getStatus() == RideStatus.CANCELADO_PASSAGEIRO ||
+                    r.getStatus() == RideStatus.CANCELADO_FALTA_TAXI) {
+                cancelled.add(r);
+            }
+        }
+        return cancelled;
+    }
+
     public List<Ride> getPendingRides() {
         List<Ride> pending = new ArrayList<>();
         for (Ride r : rides) {
@@ -72,4 +91,5 @@ public class RideController {
         }
         return pending;
     }
+
 }

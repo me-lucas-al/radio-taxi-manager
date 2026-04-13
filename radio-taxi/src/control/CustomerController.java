@@ -20,4 +20,8 @@ public class CustomerController {
         }
         return null;
     }
+    
+    public List<Customer> getAllCustomers() {
+        return customers;
+    }
 }

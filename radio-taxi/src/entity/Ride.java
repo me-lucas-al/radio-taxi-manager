@@ -25,6 +25,7 @@ public class Ride {
         this.isScheduled = true;
     }
 
+    public String getPickupAddress() { return pickupAddress; }
     public RideStatus getStatus() { return status; }
 
     public void confirmTaxi(String vrCode) {

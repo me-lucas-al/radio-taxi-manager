@@ -3,6 +3,7 @@ package control;
 import entity.Driver;
 import entity.Vehicle;
 import entity.dataType.Address;
+import entity.dataType.Cnh;
 import entity.dataType.Cpf;
 import entity.dataType.Phone;
 
@@ -18,11 +19,10 @@ public class DriverController {
     }
 
     public Driver registerDriver(String name, Cpf cpf, String vrCode, LocalDate joinDate,
-                                 String license, String category, LocalDate expiration,
-                                 Vehicle vehicle, Address address, Phone phone) {
+                                 Cnh cnh, Vehicle vehicle, Address address, Phone phone) {
 
-        Driver newDriver = new Driver(name, cpf, vrCode, joinDate, license, category,
-                expiration, vehicle, address, phone);
+        Driver newDriver = new Driver(name, cpf, vrCode, joinDate, cnh,
+                vehicle, address, phone);
         drivers.add(newDriver);
         return newDriver;
     }

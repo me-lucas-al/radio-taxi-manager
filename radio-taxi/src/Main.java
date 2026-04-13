@@ -26,8 +26,12 @@ public class Main {
                     case 3 -> RideBoundary.handleRequest(scanner, rideCtrl, customerCtrl);
                     case 4 -> RideBoundary.handleDispatch(scanner, rideCtrl);
                     case 5 -> DriverBoundary.handleDeactivate(scanner, driverCtrl);
+                    case 6 -> CustomerBoundary.handleViewMenu(scanner, customerCtrl);
+                    case 7 -> DriverBoundary.handleViewMenu(scanner, driverCtrl);
+                    case 8 -> RideBoundary.handleViewMenu(scanner, rideCtrl);
+                    case 9 -> RideBoundary.handleUpdateStatus(scanner, rideCtrl);   
                     case 0 -> System.out.println("Saindo...");
-                    default -> System.out.println("Opção inválida! Digite um número de 0 a 5.");
+                    default -> System.out.println("Opção inválida!");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("ERRO: Entrada inválida. Por favor, digite apenas números.");
@@ -39,12 +43,11 @@ public class Main {
 
     private static void showMenu() {
         System.out.println("\n=== MAR & SOL - SISTEMA DE RÁDIO TÁXI ===");
-        System.out.println("1. Novo Cliente");
-        System.out.println("2. Novo Motorista");
-        System.out.println("3. Pedir Corrida");
-        System.out.println("4. Atribuir Táxi (Dispatch)");
-        System.out.println("5. Desativar Motorista");
-        System.out.println("0. Sair");
+        System.out.println("1. Novo Cliente         | 6. Menu Clientes (Ver)");
+        System.out.println("2. Novo Motorista       | 7. Menu Motoristas (Ver)");
+        System.out.println("3. Pedir Corrida        | 8. Menu Corridas (Ver)");
+        System.out.println("4. Atribuir Táxi (Disp) | 9. Atualizar Status Corrida");
+        System.out.println("5. Desativar Motorista  | 0. Sair");
         System.out.print("Escolha: ");
     }
 }
