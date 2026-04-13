@@ -31,7 +31,10 @@ public class Driver {
         this.joinDate = joinDate;
     }
 
-    public void terminate(LocalDate date) {
+    public String getVrCode() { return vrCode; }
+    public LocalDate getLeaveDate() { return leaveDate; }
+
+    public void deactivate(LocalDate date) {
         this.leaveDate = date;
     }
 }
